@@ -72,13 +72,15 @@ class iptables(
     }
   }
 
-  service { 'iptables':
-    name       => $::iptables::params::service_name,
-    require    => Package['iptables'],
-    hasstatus  => $::iptables::params::service_has_status,
-    status     => $::iptables::params::service_status_cmd,
-    hasrestart => $::iptables::params::service_has_restart,
-    enable     => true,
+  if ($::osfamily != 'Suse') {
+    service { 'iptables':
+        name       => $::iptables::params::service_name,
+        require    => Package['iptables'],
+        hasstatus  => $::iptables::params::service_has_status,
+        status     => $::iptables::params::service_status_cmd,
+        hasrestart => $::iptables::params::service_has_restart,
+        enable     => true,
+    }
   }
 
   if ($::osfamily == 'RedHat') {

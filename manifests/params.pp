@@ -37,6 +37,16 @@ class iptables::params {
       $service_has_status = true
       $service_status_cmd = undef
     }
+    'Suse': {
+      $service_name = 'iptables'
+      $servicev6_name = 'ip6tables'
+      $rules_dir = '/etc/sysconfig'
+      $ipv4_rules = '/etc/sysconfig/iptables'
+      $ipv6_rules = '/etc/sysconfig/ip6tables'
+      $service_has_status = false
+      $service_has_restart = false
+      $service_status_cmd = undef
+    }
     'Debian': {
       $package_name = 'iptables-persistent'
       case $::operatingsystemrelease {
@@ -62,7 +72,7 @@ class iptables::params {
       $service_has_restart = false
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} The 'iptables' module only supports osfamily Debian or RedHat (slaves only).")
+      fail("Unsupported osfamily: ${::osfamily} The 'iptables' module only supports osfamily Debian or RedHat/Suse (slaves only).")
     }
   }
 }
